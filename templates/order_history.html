@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    {% include 'shared_nav.html' %}
+
+    <div class="max-w-5xl mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">📜 Detailed Order History</h1>
+
+        {% for order in orders %}
+        <div class="bg-white shadow rounded-lg p-6 mb-6 border border-gray-200">
+            <h3 class="text-xl font-semibold mb-2">Order #{{ order.order_id }} — <span class="text-sm text-gray-500">{{ order.order_date }}</span></h3>
+            <p class="mb-1"><strong>Status:</strong> <span class="text-blue-700">{{ order.status }}</span></p>
+            <p class="mb-4"><strong>Total:</strong> ${{ order.total_price }}</p>
+
+            <h4 class="font-semibold mb-2">🧾 Items:</h4>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+                {% for item in order["items"] %}
+                    <li>{{ item.name }} — Qty: {{ item.quantity }} — ${{ item.subtotal }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Your Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    {% include 'shared_nav.html' %}
+
+    <div class="max-w-xl mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">🔎 Track Your Order</h1>
+
+        <form method="POST" class="bg-white shadow rounded-lg p-6 space-y-4">
+            <div>
+                <label for="order_id" class="block font-medium mb-1">Enter Order ID:</label>
+                <input type="number" name="order_id" required class="w-full border rounded px-3 py-2">
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+                Check Order
+            </button>
+        </form>
+
+        {% if order %}
+            <div class="bg-white shadow rounded-lg p-6 mt-8">
+                <h2 class="text-xl font-semibold mb-4">📦 Order Details</h2>
+                <p><strong>Status:</strong> {{ order.status }}</p>
+                <p><strong>Date:</strong> {{ order.order_date }}</p>
+                <p><strong>Total:</strong> ${{ order.total_price }}</p>
+
+                <h3 class="text-lg font-semibold mt-4 mb-2">🧾 Items</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    {% for item in items %}
+                        <li>{{ item.name }} — Quantity: {{ item.quantity }} — ${{ item.subtotal }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% elif error %}
+            <p class="mt-4 text-red-600 font-medium text-center">❌ {{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

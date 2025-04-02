@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Staff Shifts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    {% include 'shared_nav.html' %}
+
+    <div class="max-w-4xl mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">🕒 Staff Shift Management</h1>
+
+        <!-- Assign New Shift Form -->
+        <div class="bg-white shadow rounded-lg p-6 mb-10">
+            <h2 class="text-xl font-semibold mb-4">➕ Assign New Shift</h2>
+            <form method="POST" action="/add_shift" class="space-y-4">
+                <div>
+                    <label class="block font-medium">Staff:</label>
+                    <select name="staff_id" class="w-full border rounded px-3 py-2">
+                        {% for staff in staff_list %}
+                            <option value="{{ staff.staff_id }}">{{ staff.name }} ({{ staff.role }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium">Date:</label>
+                        <input type="date" name="shift_date" required class="w-full border rounded px-3 py-2">
+                    </div>
+
+                    <div>
+                        <label class="block font-medium">Start Time:</label>
+                        <input type="time" name="start_time" required class="w-full border rounded px-3 py-2">
+                    </div>
+
+                    <div>
+                        <label class="block font-medium">End Time:</label>
+                        <input type="time" name="end_time" required class="w-full border rounded px-3 py-2">
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
+                    ➕ Assign Shift
+                </button>
+            </form>
+        </div>
+
+        <!-- Assigned Shifts Table -->
+        <h2 class="text-xl font-semibold mb-4">📋 Assigned Shifts</h2>
+        <div class="overflow-x-auto bg-white shadow rounded-lg">
+            <table class="min-w-full table-auto text-left border-collapse">
+                <thead class="bg-gray-200 text-gray-700">
+                    <tr>
+                        <th class="p-3">Staff Name</th>
+                        <th class="p-3">Role</th>
+                        <th class="p-3">Date</th>
+                        <th class="p-3">Start</th>
+                        <th class="p-3">End</th>
+                        <th class="p-3">Duration (hrs)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shift in shifts %}
+                    <tr class="border-t">
+                        <td class="p-3">{{ shift.name }}</td>
+                        <td class="p-3">{{ shift.role }}</td>
+                        <td class="p-3">{{ shift.shift_date }}</td>
+                        <td class="p-3">{{ shift.start_time }}</td>
+                        <td class="p-3">{{ shift.end_time }}</td>
+                        <td class="p-3">{{ shift.hours }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

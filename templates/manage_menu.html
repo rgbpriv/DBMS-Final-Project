@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    {% include 'shared_nav.html' %}
+
+    <div class="max-w-4xl mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">📋 Menu Management</h1>
+
+        <!-- Add New Menu Item Form -->
+        <div class="bg-white shadow rounded-lg p-6 mb-10">
+            <h2 class="text-xl font-semibold mb-4">➕ Add New Menu Item</h2>
+            <form method="POST" action="/add_menu_item" class="space-y-4">
+                <div>
+                    <label class="block font-medium">Name:</label>
+                    <input type="text" name="name" required class="w-full border rounded px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="block font-medium">Description:</label>
+                    <input type="text" name="description" class="w-full border rounded px-3 py-2">
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="flex-1">
+                        <label class="block font-medium">Price:</label>
+                        <input type="number" name="price" step="0.01" required class="w-full border rounded px-3 py-2">
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="block font-medium">Category:</label>
+                        <input type="text" name="category" class="w-full border rounded px-3 py-2">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="availability" checked class="mr-2">
+                        Available
+                    </label>
+                </div>
+
+                <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
+                    ➕ Add Item
+                </button>
+            </form>
+        </div>
+
+        <!-- Existing Menu Items Table -->
+        <h2 class="text-xl font-semibold mb-4">📦 Existing Menu Items</h2>
+        <div class="overflow-x-auto bg-white shadow rounded-lg">
+            <table class="min-w-full text-left table-auto border-collapse">
+                <thead class="bg-gray-200 text-gray-700">
+                    <tr>
+                        <th class="p-3">Name</th>
+                        <th class="p-3">Price</th>
+                        <th class="p-3">Category</th>
+                        <th class="p-3">Availability</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in menu_items %}
+                    <tr class="border-t">
+                        <form method="POST" action="/update_menu_item">
+                            <input type="hidden" name="item_id" value="{{ item.item_id }}">
+                            <td class="p-3"><input type="text" name="name" value="{{ item.name }}" class="w-full border rounded px-2 py-1"></td>
+                            <td class="p-3"><input type="number" name="price" step="0.01" value="{{ item.price }}" class="w-full border rounded px-2 py-1"></td>
+                            <td class="p-3"><input type="text" name="category" value="{{ item.category }}" class="w-full border rounded px-2 py-1"></td>
+                            <td class="p-3">
+                                <select name="availability" class="border rounded px-2 py-1 w-full">
+                                    <option value="1" {% if item.availability %}selected{% endif %}>Yes</option>
+                                    <option value="0" {% if not item.availability %}selected{% endif %}>No</option>
+                                </select>
+                            </td>
+                            <td class="p-3 flex gap-2">
+                                <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+                                    💾 Update
+                                </button>
+                        </form>
+                        <form method="POST" action="/delete_menu_item" onsubmit="return confirm('Are you sure?')">
+                            <input type="hidden" name="item_id" value="{{ item.item_id }}">
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                🗑️ Delete
+                            </button>
+                        </form>
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-6">
+            <a href="/staff" class="text-blue-600 hover:underline">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

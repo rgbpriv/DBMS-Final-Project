@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    {% include 'shared_nav.html' %}
+
+    <div class="max-w-6xl mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">📦 Today's Orders</h1>
+
+        <div class="overflow-x-auto bg-white shadow rounded-lg">
+            <table class="min-w-full text-left border-collapse">
+                <thead class="bg-gray-200 text-gray-700">
+                    <tr>
+                        <th class="p-3">Order ID</th>
+                        <th class="p-3">Date</th>
+                        <th class="p-3">Total</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr class="border-t">
+                        <td class="p-3">{{ order.order_id }}</td>
+                        <td class="p-3">{{ order.order_date }}</td>
+                        <td class="p-3">${{ order.total_price }}</td>
+                        <td class="p-3">{{ order.status }}</td>
+                        <td class="p-3">
+                            <form method="POST" action="/update_order_status" class="flex flex-col sm:flex-row sm:items-center gap-2">
+                                <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                                <select name="status" class="border rounded px-2 py-1">
+                                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Preparing" {% if order.status == 'Preparing' %}selected{% endif %}>Preparing</option>
+                                    <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                </select>
+                                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">
+                                    Update
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

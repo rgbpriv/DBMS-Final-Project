@@ -1,0 +1,33 @@
+<nav class="bg-gray-800 text-white px-4 py-3 shadow">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-sm sm:text-base">
+        <div class="flex flex-wrap items-center gap-4">
+            <a href="/" class="hover:underline">🏠 Home</a>
+            <a href="/track_order" class="hover:underline">🔎 Track Order</a>
+
+            {% if session.get('staff_id') %}
+                <a href="/staff" class="hover:underline">📊 Staff Dashboard</a>
+
+                {% if session.get('staff_role') == 'Manager' %}
+                    <a href="/manage_staff" class="hover:underline">👥 Manage Staff</a>
+                    <a href="/manage_menu" class="hover:underline">📋 Manage Menu</a>
+                    <a href="/register_staff" class="hover:underline">➕ Add Staff</a>
+                    <a href="/manage_shifts" class="hover:underline">🕒 Manage Shifts</a>
+                    <a href="/order_history" class="hover:underline">📜 Order History</a>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="flex items-center gap-4">
+            {% if session.get('staff_id') %}
+                <span class="text-gray-300">👤 {{ session.get('staff_name') }} ({{ session.get('staff_role') }})</span>
+                <a href="/staff_logout" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                    Logout
+                </a>
+            {% else %}
+                <a href="/staff_login" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+                    Staff Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

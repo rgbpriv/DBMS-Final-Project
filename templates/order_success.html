@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Placed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    {% include 'shared_nav.html' %}
+
+    <div class="max-w-xl mx-auto mt-12 bg-white shadow-md rounded-lg p-8">
+        <h1 class="text-2xl font-bold text-green-600 mb-2">✅ Order Placed Successfully!</h1>
+        <p class="text-lg"><strong>Order ID:</strong> {{ order_id }}</p>
+        <p class="text-lg mb-4"><strong>Total:</strong> ${{ total_price }}</p>
+
+        <h2 class="text-xl font-semibold mt-6">🧾 Your Items:</h2>
+        <ul class="list-disc list-inside mt-2 space-y-1">
+            {% for item in order_items %}
+                <li>{{ item.name }} — Qty: {{ item.quantity }} — ${{ item.subtotal }}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="mt-6 flex gap-6">
+            <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">← Back to Home</a>
+            <a href="/track_order" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 transition">🔎 Track Your Order</a>
+        </div>
+    </div>
+</body>
+</html>
