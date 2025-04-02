@@ -1,11 +1,10 @@
 import bcrypt
 import mysql.connector
 
-# Connect to your DB
 db = mysql.connector.connect(
     host="localhost",
-    user="restaurant_user",  # or your DB user
-    password="password123",  # your DB password
+    user="restaurant_user",  
+    password="password123",  
     database="restaurant_db"
 )
 

@@ -160,7 +160,7 @@ def update_order_status():
     order_id = request.form.get('order_id')
     new_status = request.form.get('status')
 
-    # Optional: Validate inputs
+    # Validate inputs
     if not order_id or not new_status:
         return "Invalid data provided.", 400
 
