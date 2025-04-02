@@ -1,13 +1,18 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 
 import mysql.connector
+from dotenv import load_dotenv
+import os
+import mysql.connector
 
+load_dotenv()
 
 db = mysql.connector.connect(
-    host="localhost",
-    user="restaurant_user",
-    password="password123",
-    database="restaurant_db"
+    host=os.getenv("DB_HOST"),
+    port=int(os.getenv("DB_PORT")),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_NAME")
 )
 
 app = Flask(__name__)
